@@ -1,11 +1,13 @@
 import { User } from '@/schema/user.schema'
 import { deleteUser, getUsers } from '@/services/userStorage'
-import { useEffect, useState } from 'react'
-import styles from './UsersPage.module.scss'
 import { formatCPF, formatPhone } from '@/utils/masks'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
+import styles from './UsersPage.module.scss'
 
 export const UsersPage = () => {
+  const navigate = useNavigate()
   const [users, setUsers] = useState<User[]>([])
 
   const fetchUsers = async () => {
@@ -17,8 +19,15 @@ export const UsersPage = () => {
     }
   }
 
-  const onEdit = (cpf: string) => {
-    console.log('Edit user with CPF:', cpf)
+  const onEdit = async (user: User) => {
+    navigate('/cadastro', {
+      state: {
+        name: user.name,
+        email: user.email,
+        cpf: formatCPF(user.cpf),
+        phone: formatPhone(user.phone),
+      },
+    })
   }
 
   const onDelete = async (cpf: string) => {
@@ -53,10 +62,10 @@ export const UsersPage = () => {
               <td>{formatPhone(user.phone)}</td>
               <td>{user.email}</td>
               <td className={styles.actions}>
-                <button type="button" onClick={() => onEdit?.(user.cpf)}>
+                <button type="button" onClick={() => onEdit(user)}>
                   Editar
                 </button>
-                <button type="button" onClick={() => onDelete?.(user.cpf)}>
+                <button type="button" onClick={() => onDelete(user.cpf)}>
                   Excluir
                 </button>
               </td>

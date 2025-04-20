@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { getUsers, saveUser, deleteUser, clearUserCache } from './userStorage'
+import { getUsers, saveUser, deleteUser, clearUserCache, editUser } from './userStorage'
 import { STORAGE_KEY } from '@/constants/storage'
 import type { User } from '@/schema/user.schema'
 import * as api from './api/users'
@@ -9,6 +9,18 @@ const mockUser: User = {
   cpf: '12345678901',
   phone: '11999999999',
   email: 'alice@example.com',
+}
+
+const otherUser = {
+  name: 'Bob',
+  cpf: '22222222222',
+  email: 'bob@example.com',
+  phone: '11888888888',
+}
+
+const updatedUser = {
+  ...mockUser,
+  email: 'alice.new@example.com',
 }
 
 describe('userStorage service', () => {
@@ -68,5 +80,62 @@ describe('userStorage service', () => {
     await deleteUser(mockUser.cpf)
     const result = await getUsers()
     expect(result).toHaveLength(0)
+  })
+
+  it('edita usuário com sucesso quando dados não entram em conflito', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([mockUser, otherUser]))
+    await editUser(updatedUser)
+
+    const updated = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(updated).toEqual([updatedUser, otherUser])
+  })
+
+  it('lança erro se nenhuma alteração for detectada', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([mockUser]))
+    await expect(() => editUser(mockUser)).rejects.toThrow('Nenhuma alteração detectada')
+  })
+
+  it('lança erro se o novo e-mail já pertencer a outro usuário', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([mockUser, otherUser]))
+
+    const conflictingEmailUser = {
+      ...mockUser,
+      email: otherUser.email,
+    }
+
+    await expect(() => editUser(conflictingEmailUser)).rejects.toThrow('E-mail já existente')
+  })
+
+  it('lança erro se o novo telefone já pertencer a outro usuário', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([mockUser, otherUser]))
+
+    const conflictingPhoneUser = {
+      ...mockUser,
+      phone: otherUser.phone,
+    }
+
+    await expect(() => editUser(conflictingPhoneUser)).rejects.toThrow('Telefone já existente')
+  })
+
+  it('lança erro se o CPF não for encontrado', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([otherUser]))
+
+    await expect(() => editUser({ ...mockUser, email: 'novo@example.com' })).rejects.toThrow(
+      'Usuário não encontrado'
+    )
+  })
+
+  it('permite editar apenas o nome sem erro', async () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([mockUser]))
+
+    const updatedUser: User = {
+      ...mockUser,
+      name: 'Alice Alterada',
+    }
+
+    await editUser(updatedUser)
+
+    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+    expect(stored).toEqual([updatedUser])
   })
 })

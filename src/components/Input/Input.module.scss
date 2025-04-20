@@ -46,6 +46,11 @@
     -webkit-text-fill-color: $color-text;
     transition: background-color 5000s ease-in-out 0s;
   }
+
+  &:disabled {
+    background-color: $color-muted;
+    cursor: not-allowed;
+  }
 }
 
 .label {

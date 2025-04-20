@@ -1,7 +1,7 @@
-import clsx from 'clsx'
-import { forwardRef, InputHTMLAttributes, useState } from 'react'
-import styles from './Input.module.scss'
 import { formatCPF, formatPhone } from '@/utils/masks'
+import clsx from 'clsx'
+import { forwardRef, InputHTMLAttributes } from 'react'
+import styles from './Input.module.scss'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -11,17 +11,17 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, id, name, className, value, mask, onChange, ...props }, ref) => {
-    const [localValue, setLocalValue] = useState(value ?? '')
-
+  ({ label, error, id, name, className, mask, onChange, ...props }, ref) => {
     const inputId = id ?? name
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       let raw = e.target.value
+
       if (mask === 'cpf') raw = formatCPF(raw)
       if (mask === 'phone') raw = formatPhone(raw)
 
-      setLocalValue(raw)
-      onChange?.({ ...e, target: { ...e.target, value: raw, name } })
+      e.target.value = raw
+      onChange?.(e)
     }
 
     return (
@@ -30,7 +30,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           name={name}
           type="text"
-          value={localValue}
           onChange={handleChange}
           ref={ref}
           aria-invalid={!!error}
