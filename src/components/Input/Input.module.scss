@@ -1,34 +1,35 @@
 @use '@/styles/base' as *;
 
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  position: relative;
+  margin: 2.5rem 0 1.5rem;
 }
 
 .input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px 10px 10px 5px;
+  display: block;
   border: none;
-  border-bottom: 2px solid $color-muted;
-  padding: 8px 0;
-
-  &::placeholder {
-    color: $color-muted;
-  }
+  border-bottom: 1px solid $color-muted;
+  background: transparent;
 
   &:focus {
     outline: none;
-    border-bottom: 2px solid $color-text;
+  }
+
+  &:focus ~ .label,
+  &:not(:placeholder-shown) ~ .label {
+    top: -1.25rem;
+    font-size: 0.75rem;
+    color: $color-muted;
+  }
+
+  &:focus ~ .bar::before,
+  &:focus ~ .bar::after,
+  &:not(:placeholder-shown) ~ .bar::before,
+  &:not(:placeholder-shown) ~ .bar::after {
+    width: 50%;
   }
 
   &[aria-invalid='true'] {
@@ -44,8 +45,47 @@
   }
 }
 
+.label {
+  position: absolute;
+  left: 5px;
+  top: 10px;
+  font-size: 1rem;
+  color: $color-muted;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.bar {
+  position: relative;
+  display: block;
+  width: 100%;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 0;
+    bottom: 0;
+    background: $color-text;
+    transition: 0.2s ease all;
+  }
+
+  &::before {
+    left: 50%;
+  }
+
+  &::after {
+    right: 50%;
+  }
+}
+
 .error {
+  font-size: 0.75rem;
   color: $color-error;
-  font-size: 0.8rem;
   margin-top: 4px;
 }
