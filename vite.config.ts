@@ -6,6 +6,12 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  resolve: {
+    alias: {
+      '@': '/src',
+      '@/ui': './src/components/ui',
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

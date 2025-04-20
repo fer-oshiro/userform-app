@@ -3,6 +3,7 @@
 body {
   font-family: base.$font-primary;
   background-color: base.$color-background;
+  color: base.$color-text;
 }
 
 h1,
@@ -12,6 +13,12 @@ h4,
 h5,
 h6 {
   font-family: base.$font-secondary;
-  color: base.$color-text;
   font-weight: 500;
+}
+
+input,
+textarea,
+select {
+  font-family: base.$font-primary;
+  color: base.$color-text;
 }

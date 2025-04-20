@@ -1,5 +1,5 @@
 import { Navigate, Routes as ReactRouter, Route } from 'react-router'
-import { FormPage } from '../pages/FormPage'
+import { FormPage } from '../pages/FormPage/FormPage'
 import { Page404 } from '../pages/Page404'
 import { UsersPage } from '../pages/UsersPage'
 
