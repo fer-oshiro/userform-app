@@ -4,13 +4,13 @@ import { Input } from './index'
 
 describe('Input', () => {
   it('renderiza o input', () => {
-    render(<Input label="Nome completo" id="name" />)
+    render(<Input label="Nome completo" id="name" name="name" />)
     const input = screen.getByLabelText('Nome completo') as HTMLInputElement
     expect(input).toBeInTheDocument()
   })
 
   it('associa o label ao input corretamente', () => {
-    render(<Input label="Email" id="email" />)
+    render(<Input label="Email" id="email" name="name" />)
     const label = screen.getByText('Email')
     const input = screen.getByLabelText('Email')
 
@@ -19,7 +19,7 @@ describe('Input', () => {
   })
 
   it('permite digitar no input', async () => {
-    render(<Input label="Nome completo" id="name" />)
+    render(<Input label="Nome completo" id="name" name="name" />)
     const input = screen.getByLabelText('Nome completo') as HTMLInputElement
 
     await userEvent.type(input, 'Fernanda Oshiro')
