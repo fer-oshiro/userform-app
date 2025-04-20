@@ -47,10 +47,12 @@ npm run prepare    # Inicializa o Husky
 src/
 ├── components/      # Componentes
 ├── constants/       # Constantes globais usadas na aplicação
-├── pages/           # Páginas do app
-├── routes/          # Definição das rotas do app com React Router
-├── services/        # Funções de requisição
-├── styles/          # SCSS globais e reset
-├── tests/           # Setup de testes
+├── pages/           # Páginas do app e seus componentes locais
+├── routes/          # Configuração de rotas com React Router
+├── schema/          # Schemas de validação com Zod
+├── services/        # Serviços de dados (ex: localStorage, API mocks)
+├── styles/          # SCSS globais
+├── tests/           # Configurações e utilitários para testes
+├── utils/           # Funções auxiliares e utilitários puros
 └── main.tsx         # Entrada da aplicação
 ```
