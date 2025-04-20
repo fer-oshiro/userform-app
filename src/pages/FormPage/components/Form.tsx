@@ -36,8 +36,6 @@ export const UserForm = ({ initialData, onSubmit }: UserFormProps) => {
     }
   }, [initialData, reset])
 
-  console.log('initialData', initialData)
-
   return (
     <form className={styles.wrapper} onSubmit={handleSubmit(onSubmit)}>
       <h1>{initialData ? 'Editar Usuário' : 'Cadastrar Usuário'}</h1>
