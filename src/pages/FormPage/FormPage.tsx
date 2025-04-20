@@ -7,8 +7,11 @@ export const FormPage = () => {
   return (
     <div className={style.wrapper}>
       <h1>Formulário</h1>
-      <Input name="name" placeholder="Nome completo (sem abreviações)" label="Nome Completo" />
-      <Button isLoading>Cadastrar</Button>
+      <Input name="name" label="Nome Completo (sem abreviações)" />
+      <Input name="email" label="E-mail" />
+      <Input name="cpf" label="CPF" />
+      <Input name="phone" label="Telefone" />
+      <Button>Cadastrar</Button>
     </div>
   )
 }
