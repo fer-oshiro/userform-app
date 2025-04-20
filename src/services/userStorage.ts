@@ -23,6 +23,10 @@ function buildUserMap(users: User[]): Map<UserKey, User> {
   return map
 }
 
+function hasDuplicateUser(user: User, map: Map<string, User>): boolean {
+  return makeUserKeys(user).some((key) => map.has(key))
+}
+
 export async function getUsers(): Promise<User[]> {
   if (cachedUsers) return cachedUsers
 
@@ -43,7 +47,7 @@ export async function saveUser(newUser: User): Promise<void> {
   const users = await getUsers()
   if (!userMap) userMap = buildUserMap(users)
 
-  const hasDuplicate = makeUserKeys(newUser).some((key) => userMap!.has(key))
+  const hasDuplicate = hasDuplicateUser(newUser, userMap)
   if (hasDuplicate) {
     throw new Error('Usuário já existente')
   }
@@ -70,4 +74,41 @@ export async function deleteUser(cpf: string): Promise<void> {
 export function clearUserCache(): void {
   cachedUsers = null
   userMap = null
+}
+
+function fieldConflict(field: 'email' | 'phone', updated: User, map: Map<string, User>) {
+  const value = updated[field]
+  const existing = map.get(`${field}:${value}` as UserKey)
+  return existing && existing.cpf !== updated.cpf
+}
+
+export async function editUser(updated: User): Promise<void> {
+  const users = await getUsers()
+  if (!userMap) userMap = buildUserMap(users)
+
+  const existing = userMap.get(`cpf:${updated.cpf}`)
+  if (!existing) {
+    throw new Error('Usuário não encontrado')
+  }
+
+  const isDifferent =
+    updated.email !== existing.email ||
+    updated.phone !== existing.phone ||
+    updated.name !== existing.name
+
+  if (!isDifferent) throw new Error('Nenhuma alteração detectada')
+
+  if (updated.email !== existing.email && fieldConflict('email', updated, userMap)) {
+    throw new Error('E-mail já existente')
+  }
+  if (updated.phone !== existing.phone && fieldConflict('phone', updated, userMap)) {
+    throw new Error('Telefone já existente')
+  }
+
+  const index = users.findIndex((u) => u.cpf === updated.cpf)
+  users[index] = updated
+
+  cachedUsers = users
+  userMap = buildUserMap(users)
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(users))
 }

@@ -1,5 +1,6 @@
 import * as userService from '@/services/userStorage'
-import { render, screen, waitFor } from '@testing-library/react'
+import { renderWithRouter } from '@/tests/MemoryRouter'
+import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { FormPage } from './FormPage'
@@ -22,7 +23,7 @@ describe('FormPage', () => {
   it('envia o formulário com dados válidos (com spy)', async () => {
     const spy = vi.spyOn(userService, 'saveUser').mockImplementation(async () => {})
 
-    render(<FormPage />)
+    renderWithRouter(<FormPage />)
     await fillValidForm()
 
     const button = screen.getByRole('button', { name: /cadastrar/i })
@@ -41,7 +42,7 @@ describe('FormPage', () => {
   })
 
   it('exibe mensagens de erro por campo inválido', async () => {
-    render(<FormPage />)
+    renderWithRouter(<FormPage />)
     await fillInvalidForm()
 
     const button = screen.getByRole('button', { name: /cadastrar/i })
@@ -54,7 +55,7 @@ describe('FormPage', () => {
   })
 
   it('mantém o botão desabilitado com formulário inválido', () => {
-    render(<FormPage />)
+    renderWithRouter(<FormPage />)
     const button = screen.getByRole('button', { name: /cadastrar/i })
     expect(button).toBeDisabled()
   })

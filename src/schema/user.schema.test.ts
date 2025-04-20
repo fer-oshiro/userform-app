@@ -13,7 +13,6 @@ describe('userSchema', () => {
 
       expect(result.success).toBe(false)
       if (!result.success) {
-        console.log(result.error.format())
         expect(result.error.format().name?._errors).toEqual(
           expect.arrayContaining([
             'Campo deve conter 3 caracteres ou mais',

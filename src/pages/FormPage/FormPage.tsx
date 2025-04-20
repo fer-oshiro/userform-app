@@ -1,66 +1,38 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-
-import { Button } from '@/components/Button'
-import { Input } from '@/components/Input'
-import { User, userSchema } from '@/schema/user.schema'
-import { saveUser } from '@/services/userStorage'
-import style from './FormPage.module.scss'
+import { UserForm } from './components/Form'
+import { User } from '@/schema/user.schema'
+import { editUser, saveUser } from '@/services/userStorage'
+import { toast } from 'sonner'
+import styles from './FormPage.module.scss'
+import { useLocation, useNavigate } from 'react-router'
 
 export const FormPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-  } = useForm<User>({
-    resolver: zodResolver(userSchema),
-    mode: 'onTouched',
-  })
+  const location = useLocation()
+  const navigate = useNavigate()
+  const initialData = location.state as User | undefined
 
-  const onSubmit = async (data: User) => {
-    console.log(data)
-    await saveUser(data)
+  const handleSave = async (data: User) => {
+    try {
+      if (initialData) {
+        await editUser(data)
+        toast.success('Usuário atualizado com sucesso!')
+      } else {
+        await saveUser(data)
+        toast.success('Usuário cadastrado com sucesso!')
+      }
+      navigate('/usuarios')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message)
+      } else {
+        toast.error('Erro desconhecido')
+      }
+      console.error('Error saving user:', error)
+    }
   }
 
   return (
-    <div className={style.container}>
-      <form className={style.wrapper} onSubmit={handleSubmit(onSubmit)}>
-        <h1>Formulário</h1>
-        <Input
-          label="Nome Completo (sem abreviações)"
-          type="text"
-          inputMode="text"
-          error={errors.name?.message}
-          {...register('name', { required: true })}
-        />
-        <Input
-          label="E-mail"
-          type="email"
-          inputMode="email"
-          error={errors.email?.message}
-          {...register('email', { required: true })}
-        />
-        <Input
-          label="CPF"
-          mask="cpf"
-          type="tel"
-          inputMode="numeric"
-          error={errors.cpf?.message}
-          {...register('cpf', { required: true })}
-        />
-        <Input
-          label="Telefone"
-          mask="phone"
-          type="tel"
-          inputMode="numeric"
-          error={errors.phone?.message}
-          className={style.input}
-          {...register('phone', { required: true })}
-        />
-        <Button type="submit" isLoading={isSubmitting} disabled={!isValid} isFullWidth>
-          Cadastrar
-        </Button>
-      </form>
+    <div className={styles.container}>
+      <UserForm initialData={initialData} onSubmit={handleSave} />
     </div>
   )
 }
