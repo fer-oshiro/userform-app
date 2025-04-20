@@ -1,11 +1,11 @@
-import { Button } from '@/components/Button'
-import { Input } from '@/components/Input'
-import { User, userSchema } from '@/schema/user.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
+import { Button } from '@/components/Button'
+import { Input } from '@/components/Input'
+import { User, userSchema } from '@/schema/user.schema'
+import { saveUser } from '@/services/userStorage'
 import style from './FormPage.module.scss'
-import { saveUser } from '@/services/user'
 
 export const FormPage = () => {
   const {
