@@ -2,6 +2,7 @@
 
 .wrapper {
   position: relative;
+  width: 100%;
   margin: 2.5rem 0 1.5rem;
 }
 
@@ -11,7 +12,6 @@
   padding: 10px 10px 10px 5px;
   display: block;
   border: none;
-  border-bottom: 1px solid $color-muted;
   background: transparent;
 
   &:focus {
@@ -22,7 +22,7 @@
   &:not(:placeholder-shown) ~ .label {
     top: -1.25rem;
     font-size: 0.75rem;
-    color: $color-muted;
+    color: $color-text;
   }
 
   &:focus ~ .bar::before,
@@ -32,14 +32,21 @@
     width: 50%;
   }
 
-  &[aria-invalid='true'] {
-    border-color: $color-error;
+  &[aria-invalid='true'] ~ .label {
+    color: $color-error;
   }
 
-  &:-webkit-autofill,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:hover {
-    box-shadow: 0 0 0px 1000px $color-background inset;
+  &[aria-invalid='true'] ~ .bar {
+    background-color: $color-error;
+  }
+
+  &[aria-invalid='true'] ~ .bar::before,
+  &[aria-invalid='true'] ~ .bar::after {
+    background: $color-error;
+  }
+
+  &:-webkit-autofill {
+    box-shadow: 0 0 0 1000px $color-background inset;
     -webkit-text-fill-color: $color-text;
     transition: background-color 5000s ease-in-out 0s;
   }
@@ -63,6 +70,8 @@
   position: relative;
   display: block;
   width: 100%;
+  height: 2px;
+  background-color: $color-muted;
 
   &::before,
   &::after {
