@@ -1,0 +1,24 @@
+@use './base';
+
+body {
+  font-family: base.$font-primary;
+  background-color: base.$color-background;
+  color: base.$color-text;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: base.$font-secondary;
+  font-weight: 500;
+}
+
+input,
+textarea,
+select {
+  font-family: base.$font-primary;
+  color: base.$color-text;
+}
