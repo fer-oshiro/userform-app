@@ -13,19 +13,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className={styles.wrapper}>
-        {label && (
-          <label htmlFor={inputId} className={styles.label}>
-            {label}
-          </label>
-        )}
         <input
           id={inputId}
           ref={ref}
           aria-invalid={!!error}
           aria-describedby={error ? `${inputId}-error` : undefined}
+          placeholder=" "
           className={clsx(styles.input, className)}
           {...props}
         />
+        <span className={styles.bar}></span>
+        {label && (
+          <label htmlFor={inputId} className={styles.label}>
+            {label}
+          </label>
+        )}
         {error && (
           <span id={`${inputId}-error`} className={styles.error} role="alert">
             {error}
