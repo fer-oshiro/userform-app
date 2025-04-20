@@ -1,0 +1,60 @@
+@use '@/styles/base' as *;
+
+.button {
+  padding: 0.75rem 1.5rem;
+  background-color: $color-primary;
+  color: $color-button-text;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    opacity: 0.7;
+  }
+
+  &.loading {
+    cursor: wait;
+    position: relative;
+
+    &:disabled {
+      background-color: $color-primary;
+    }
+
+    &:disabled span {
+      visibility: hidden;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      transform-origin: center;
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &:disabled {
+    background-color: $color-disabled-bg;
+    color: $color-disabled-text;
+    cursor: not-allowed;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+  display: block;
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
