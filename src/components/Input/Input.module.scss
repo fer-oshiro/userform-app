@@ -22,7 +22,7 @@
   &:not(:placeholder-shown) ~ .label {
     top: -1.25rem;
     font-size: 0.75rem;
-    color: $color-text;
+    font-weight: bold;
   }
 
   &:focus ~ .bar::before,
@@ -30,10 +30,6 @@
   &:not(:placeholder-shown) ~ .bar::before,
   &:not(:placeholder-shown) ~ .bar::after {
     width: 50%;
-  }
-
-  &[aria-invalid='true'] ~ .label {
-    color: $color-error;
   }
 
   &[aria-invalid='true'] ~ .bar {

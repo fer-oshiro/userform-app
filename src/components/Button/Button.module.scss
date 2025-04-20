@@ -8,20 +8,20 @@
   border-radius: 9999px;
   cursor: pointer;
 
-  &:hover:not(:disabled) {
-    opacity: 0.7;
+  &:hover:not(:disabled):not(.loading) {
+    background-color: $color-button-hover;
   }
 
   &.loading {
     cursor: wait;
     position: relative;
 
-    &:disabled {
-      background-color: $color-primary;
+    span {
+      visibility: hidden;
     }
 
-    &:disabled span {
-      visibility: hidden;
+    &:disabled {
+      background-color: $color-primary;
     }
 
     &::after {
