@@ -1,54 +1,56 @@
-# React + TypeScript + Vite
+# 🧾 Formulário de Usuários – Tinnova
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Projeto de cadastro e listagem de usuários desenvolvido como parte de um desafio técnico da Tinnova.
 
-Currently, two official plugins are available:
+## Visão geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O projeto tem como objetivo permitir o cadastro de usuários com validações de CPF, telefone e e-mail, além da listagem e persistência local dos dados.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologias
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [SCSS](https://sass-lang.com/)
+- [Vitest](https://vitest.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Zod](https://zod.dev/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [Husky + Commitlint](https://typicode.github.io/husky/#/)
+
+---
+
+## Instalação
+
+```bash
+git clone https://github.com/fer-oshiro/userform-app.git
+cd userform-app
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev        # Inicia o servidor de desenvolvimento
+npm run lint       # Executa o ESLint
+npm run format     # Aplica Prettier aos arquivos
+npm run test       # Executa os testes com Vitest
+npm run prepare    # Inicializa o Husky
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Estrutura de pastas
+
+```bash
+src/
+├── components/      # Componentes
+├── constants/       # Constantes globais usadas na aplicação
+├── pages/           # Páginas do app
+├── routes/          # Definição das rotas do app com React Router
+├── services/        # Funções de requisição
+├── styles/          # SCSS globais e reset
+├── tests/           # Setup de testes
+└── main.tsx         # Entrada da aplicação
 ```
