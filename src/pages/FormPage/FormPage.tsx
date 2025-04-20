@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
-import { UserSchema, userSchema } from '@/schema/user.schema'
+import { User, userSchema } from '@/schema/user.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -12,12 +12,12 @@ export const FormPage = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<UserSchema>({
+  } = useForm<User>({
     resolver: zodResolver(userSchema),
     mode: 'onTouched',
   })
 
-  const onSubmit = async (data: UserSchema) => {
+  const onSubmit = async (data: User) => {
     console.log(data)
     await saveUser(data)
   }
