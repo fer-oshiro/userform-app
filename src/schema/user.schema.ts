@@ -25,4 +25,4 @@ export const userSchema = z.object({
   email: z.string().email({ message: 'Campo deve conter um e-mail válido' }),
 })
 
-export type UserSchema = z.infer<typeof userSchema>
+export type User = z.infer<typeof userSchema>

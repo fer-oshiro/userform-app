@@ -1,8 +1,8 @@
+import * as userService from '@/services/userStorage'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { FormPage } from './FormPage'
-import * as userService from '@/services/user'
 
 const fillValidForm = async () => {
   await userEvent.type(screen.getByLabelText(/nome completo/i), 'Fernanda Oshiro')
@@ -20,9 +20,7 @@ const fillInvalidForm = async () => {
 
 describe('FormPage', () => {
   it('envia o formulário com dados válidos (com spy)', async () => {
-    const spy = vi.spyOn(userService, 'saveUser').mockImplementation(async () => ({
-      success: true,
-    }))
+    const spy = vi.spyOn(userService, 'saveUser').mockImplementation(async () => {})
 
     render(<FormPage />)
     await fillValidForm()

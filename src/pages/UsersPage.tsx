@@ -1,12 +1,13 @@
+import { User } from '@/schema/user.schema'
 import { useEffect, useState } from 'react'
-import { fetchRemoteUsers } from '../services/user'
+import { getUsers } from '@/services/userStorage'
 
 export const UsersPage = () => {
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState<User[]>([])
 
-  const getUsers = async () => {
+  const fetchUsers = async () => {
     try {
-      const data = await fetchRemoteUsers()
+      const data = await getUsers()
       setUsers(data)
     } catch (error) {
       console.error('Error fetching users:', error)
@@ -14,7 +15,7 @@ export const UsersPage = () => {
   }
 
   useEffect(() => {
-    getUsers()
+    fetchUsers()
   }, [])
 
   return (
