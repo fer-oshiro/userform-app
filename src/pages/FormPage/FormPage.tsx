@@ -6,6 +6,7 @@ import { Input } from '@/components/Input'
 import { User, userSchema } from '@/schema/user.schema'
 import { saveUser } from '@/services/userStorage'
 import style from './FormPage.module.scss'
+import { toast } from 'sonner'
 
 export const FormPage = () => {
   const {
@@ -18,8 +19,15 @@ export const FormPage = () => {
   })
 
   const onSubmit = async (data: User) => {
-    console.log(data)
-    await saveUser(data)
+    try {
+      await saveUser(data)
+      toast.success('Usuário adicionado com sucesso!')
+    } catch (error: unknown) {
+      console.error(error)
+      if (error instanceof Error) {
+        toast.error(error.message ?? 'Erro ao adicionar usuário')
+      }
+    }
   }
 
   return (
