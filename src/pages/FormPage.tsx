@@ -3,5 +3,5 @@ export const FormPage = () => {
     <div>
       <h1>Formulário</h1>
     </div>
-  );
-};
+  )
+}

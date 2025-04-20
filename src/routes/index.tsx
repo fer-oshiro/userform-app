@@ -1,7 +1,7 @@
-import { Navigate, Routes as ReactRouter, Route } from "react-router";
-import { FormPage } from "../pages/FormPage";
-import { Page404 } from "../pages/Page404";
-import { UsersPage } from "../pages/UsersPage";
+import { Navigate, Routes as ReactRouter, Route } from 'react-router'
+import { FormPage } from '../pages/FormPage'
+import { Page404 } from '../pages/Page404'
+import { UsersPage } from '../pages/UsersPage'
 
 export const Routes = () => {
   return (
@@ -12,5 +12,5 @@ export const Routes = () => {
       <Route path="/404" element={<Page404 />} />
       <Route path="*" element={<Navigate to="/404" />} />
     </ReactRouter>
-  );
-};
+  )
+}
